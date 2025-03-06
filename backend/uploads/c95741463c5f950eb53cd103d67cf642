@@ -1,0 +1,6 @@
+[2025-03-05T10:30:25Z] INFO Background job started {"jobId": "J12345"}
+[2025-03-05T10:35:40Z] WARN Disk space running low {"free": "1.2GB"}
+[2025-03-05T10:40:55Z] ERROR Unauthorized login attempt {"userId": 500, "ip": "10.0.0.50"}
+[2025-03-05T10:45:15Z] DEBUG Session token refreshed {"userId": 500}
+[2025-03-05T10:50:20Z] ERROR System crash detected {"service": "reporting", "stackTrace": "at line 202"}
+[2025-03-05T10:55:30Z] INFO Server restarted successfully

@@ -1,0 +1,6 @@
+[2025-03-05T11:00:00Z] INFO File uploaded successfully {"fileId": "file987", "size": "15MB"}
+[2025-03-05T11:05:20Z] WARN High CPU usage detected {"usage": "92%"}
+[2025-03-05T11:10:30Z] ERROR Failed to process file {"fileId": "file987", "reason": "Corrupted data"}
+[2025-03-05T11:15:45Z] DEBUG User session extended {"userId": 305}
+[2025-03-05T11:20:55Z] INFO Scheduled backup completed {"duration": "7min"}
+[2025-03-05T11:25:10Z] ERROR Network outage detected {"region": "us-east-1"}
