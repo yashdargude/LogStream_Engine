@@ -1,6 +1,0 @@
-[2025-03-05T09:00:10Z] INFO Server health check OK
-[2025-03-05T09:05:15Z] DEBUG Fetching analytics data
-[2025-03-05T09:08:45Z] ERROR API response invalid {"endpoint": "/api/stats", "status": 500}
-[2025-03-05T09:12:30Z] INFO User registered {"userId": 209, "email": "user209@example.com"}
-[2025-03-05T09:15:50Z] WARN Slow response from external service {"service": "payment", "delay": "3s"}
-[2025-03-05T09:20:00Z] ERROR Payment processing failed {"transactionId": "TXN209", "amount": 99.99, "error": "Insufficient funds"}

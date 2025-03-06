@@ -1,6 +1,0 @@
-[2025-03-05T12:00:00Z] INFO Batch job initiated {"jobType": "data-cleanup"}
-[2025-03-05T12:05:10Z] DEBUG Loading configuration files
-[2025-03-05T12:10:25Z] WARN API rate limit approaching {"limit": "95%"}
-[2025-03-05T12:15:40Z] ERROR External API failure {"service": "weather", "status": 503}
-[2025-03-05T12:20:50Z] INFO New admin account created {"adminId": 999, "email": "admin@example.com"}
-[2025-03-05T12:25:05Z] ERROR Malware detected in uploaded file {"fileId": "file123", "threat": "TrojanX"}
