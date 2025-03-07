@@ -3,13 +3,24 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const http = require("http"); // Import the http module
+const { Server } = require("socket.io");
 const fileQueue = require("./queues/fileQueue");
 const fileWorker = require("./workers/fileWorker");
 const { createClient } = require("@supabase/supabase-js");
 require("./workers/fileWorker");
+const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000", // Replace with your frontend URL
+    methods: ["GET", "POST"],
+  },
+});
 
 const supabase = createClient(
   process.env.Supabase_URL,
@@ -17,6 +28,7 @@ const supabase = createClient(
 );
 
 app.use(express.json());
+app.use(cors());
 
 const upload = multer({ dest: "uploads/" });
 
@@ -80,9 +92,26 @@ app.get("/api/queue-status", async (req, res) => {
   res.send(queueStatus);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  const emitQueueStatus = async () => {
+    const queueStatus = await fileQueue.getJobCounts();
+    socket.emit("queue-status", queueStatus);
+  };
+
+  // Emit initial queue status
+  emitQueueStatus();
+
+  // Set interval to emit queue status every 5 seconds
+  const interval = setInterval(emitQueueStatus, 5000);
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+    clearInterval(interval);
+  });
 });
 
-// backend/files/logs/log1.log
-// /Users/yashdargude/Desktop/project/LogStream_Engine/backend/files/logs/log1.log
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

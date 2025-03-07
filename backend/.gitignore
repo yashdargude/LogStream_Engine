@@ -1,5 +1,7 @@
 # Node.js
 node_modules/
+files/
+files
 npm-debug.log
 yarn-error.log
 
