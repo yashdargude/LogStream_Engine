@@ -4,11 +4,13 @@ import { supabase } from "../lib/supabaseClient";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { motion } from "framer-motion";
-
+import UserProfileDropdown from "./UserProfileBox";
+import useAuth from "@/hooks/useAuth";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const user = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,7 +36,10 @@ export default function LoginForm() {
 
   return (
     <>
-      <div className="w-full  bg-black">
+      <div className="w-full h-150  bg-black">
+        <div className="fixed top-4 right-4 z-50">
+          <UserProfileDropdown user={user} />
+        </div>
         <motion.div
           className="max-w-md  mx-auto mt-16 p-8 bg-white shadow-xl rounded-2xl border border-gray-200"
           initial={{ opacity: 0, y: 20 }}
@@ -82,7 +87,7 @@ export default function LoginForm() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleOAuthLogin("github")}
-              className="w-full bg-gray-800 hover:bg-gray-900 text-white p-3 rounded-lg flex items-center justify-center space-x-2 transition"
+              className="w-full bg-black hover:bg-gray-900 text-white p-3 rounded-lg flex items-center justify-center space-x-2 transition"
             >
               <FaGithub size={20} />
               <span>Login with GitHub</span>

@@ -43,12 +43,14 @@ export default function UserProfileDropdown({ user }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48 shadow-lg rounded-lg">
           <div className="px-4 py-2 text-sm text-gray-700">
-            <p className="font-medium">{user?.user_metadata?.name}</p>
+            <p className="font-medium text-center">
+              {user?.user_metadata?.name || "Login First"}
+            </p>
             <p className="text-xs text-gray-500 truncate">{user?.email}</p>
           </div>
           <DropdownMenuItem
             onClick={handleLogout}
-            className="text-red-500 text-sm cursor-pointer"
+            className="text-red-500 text-sm cursor-pointer text-center justify-center"
           >
             Logout
           </DropdownMenuItem>
