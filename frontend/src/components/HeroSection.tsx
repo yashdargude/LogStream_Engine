@@ -11,7 +11,7 @@ import { Cover } from "../components/ui/cover";
 import CompanyInfo from "@/components/CompanyInfo";
 import { Dock } from "./Dock";
 import { HeroHighlight, Highlight } from "../components/ui/hero-highlight";
-
+import UserProfileDropdown from "./UserProfileBox";
 export default function Hero() {
   const user = useAuth();
 
@@ -28,6 +28,9 @@ export default function Hero() {
           alt="Cybersapient Logo"
           className="h-12 md:h-16" // Adjust size as needed
         />
+      </div>
+      <div className="fixed top-4 right-4 z-50">
+        <UserProfileDropdown user={user} />
       </div>
 
       <div className="relative h-screen bg-black overflow-hidden z-2">

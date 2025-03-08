@@ -1,6 +1,0 @@
-[2025-03-05T08:10:15Z] INFO Application started successfully
-[2025-03-05T08:12:30Z] WARN High memory usage detected {"usage": "78%"}
-[2025-03-05T08:15:45Z] ERROR Failed to fetch user details {"userId": 102, "error": "Timeout"}
-[2025-03-05T08:18:05Z] DEBUG Cache refresh triggered
-[2025-03-05T08:20:30Z] INFO User logged in {"userId": 102, "ip": "192.168.1.100"}
-[2025-03-05T08:22:50Z] ERROR Database write failure {"table": "orders", "reason": "Deadlock"}

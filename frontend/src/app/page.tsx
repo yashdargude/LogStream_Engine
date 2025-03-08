@@ -11,7 +11,7 @@ import { Cover } from "../components/ui/cover";
 import CompanyInfo from "@/components/CompanyInfo";
 import Hero from "@/components/HeroSection";
 import { HeroHighlight, Highlight } from "../components/ui/hero-highlight";
-
+import UserProfileDropdown from "../components/UserProfileBox";
 export default function Home() {
   const user = useAuth();
 

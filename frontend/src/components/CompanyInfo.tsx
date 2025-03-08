@@ -76,9 +76,6 @@ export default function CompanyInfo() {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 bg-black text-white text-center">
-        <p>&copy; 2023 Cybersapient Technologies | All rights reserved.</p>
-      </footer>
     </div>
   );
 }
