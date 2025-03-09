@@ -1,46 +1,66 @@
 const { Worker } = require("bullmq");
-const Redis = require("ioredis");
+const redis = require("redis");
 const { createClient } = require("@supabase/supabase-js");
 const fs = require("fs");
 const readline = require("readline");
 const os = require("os");
 
-// const connection = new Redis({
-//   host: process.env.Redis_Host_Cloud,
-//   port: process.env.Redis_Port_Cloud,
-//   password: process.env.REDIS_PASSWORD,
-//   maxRetriesPerRequest: null,
-//   tls: {
-//     minVersion: "TLSv1.2", // ✅ Force correct TLS version
-//     rejectUnauthorized: false, // ✅ Ignore certificate issues
-//   },
-// });
-
-const connection = new Redis(process.env.Redis_Url_Cloud, {
-  maxRetriesPerRequest: null,
-  tls: {
-    rejectUnauthorized: false,
+// ✅ Create Redis Client Using Native Redis (NO ioredis)
+const client = redis.createClient({
+  socket: {
+    host: process.env.Redis_Host_Cloud,
+    port: process.env.Redis_Port_Cloud,
+    tls: {
+      rejectUnauthorized: false, // ✅ Ignore self-signed certificates
+      minVersion: "TLSv1.2", // ✅ Force correct TLS version
+    },
   },
+  password: process.env.REDIS_PASSWORD,
 });
 
+// ✅ Handle Redis Connection
+client.on("connect", () => {
+  console.log("✅ Connected to Redis Cloud Successfully 🚀");
+});
+
+client.on("error", (err) => {
+  console.error("❌ Redis Client Error:", err);
+});
+
+// ✅ Connect Redis Client
+client
+  .connect()
+  .then(() => {
+    console.log("✅ Redis Client Fully Connected.");
+  })
+  .catch((err) => {
+    console.error("❌ Redis Client Connection Failed:", err);
+  });
+
+// ✅ Initialize Supabase
 const supabase = createClient(
   process.env.Supabase_URL,
   process.env.Supabase_Anon_Key
 );
 
+// ✅ Worker for BullMQ
 const fileWorker = new Worker(
   "log-processing-queue",
   async (job) => {
-    console.log(`Processing job ${job.id} with priority ${job.opts.priority}`);
+    console.log(
+      `⚙️ Processing job ${job.id} with priority ${job.opts.priority}`
+    );
 
     const { filePath } = job.data;
 
+    // ✅ Read the log file
     const fileStream = fs.createReadStream(filePath);
     const rl = readline.createInterface({
       input: fileStream,
       crlfDelay: Infinity,
     });
 
+    // ✅ Initialize Log Stats
     const logStats = {
       job_id: job.id,
       errors: 0,
@@ -49,40 +69,38 @@ const fileWorker = new Worker(
       ips: new Set(),
     };
 
+    // ✅ Process each line of the log file
     for await (const line of rl) {
-      //   console.log("Processing line:", line);
-
-      // Improved regex to correctly extract log parts including JSON payload
+      // ✅ Extract data using regex
       const match = line.match(/^\[(.*?)\] (\w+) (.+?)(?: ({.*}))?$/);
 
       if (match) {
         const [, timestamp, level, message, jsonPayload] = match;
 
-        // Count errors, warnings, infos
+        // ✅ Count errors, warnings, infos
         if (level === "ERROR") logStats.errors++;
         if (level === "WARNING") logStats.warnings++;
         if (level === "INFO") logStats.infos++;
 
-        // Parse JSON payload if present
+        // ✅ Extract IP addresses from payload
         if (jsonPayload) {
           try {
             const payload = JSON.parse(jsonPayload);
             if (payload.ip) {
               logStats.ips.add(payload.ip);
-              console.log("IP Address Added:", payload.ip);
+              console.log(`✅ IP Address Captured: ${payload.ip}`);
             }
           } catch (error) {
-            console.error("Error parsing JSON payload:", error.message);
+            console.error(`❌ Failed to parse JSON: ${error.message}`);
           }
         }
-      } else {
-        console.log("No match found for line:", line);
       }
     }
 
+    // ✅ Convert Set to Array
     logStats.ips = Array.from(logStats.ips);
-    console.log("Final IPs Set:", logStats.ips);
 
+    // ✅ Save Log Stats to Supabase
     const { data, error } = await supabase.from("log_stats").insert([
       {
         job_id: logStats.job_id,
@@ -94,12 +112,23 @@ const fileWorker = new Worker(
     ]);
 
     if (error) {
-      console.error("Error inserting log stats:", error.message);
+      console.error("❌ Failed to insert log stats:", error.message);
     } else {
-      console.log("Log stats inserted:", data);
+      console.log("✅ Successfully inserted log stats:", data);
     }
   },
-  { connection }
+  {
+    connection: {
+      host: process.env.Redis_Host_Cloud,
+      port: process.env.Redis_Port_Cloud,
+      password: process.env.REDIS_PASSWORD,
+      tls: {
+        rejectUnauthorized: false,
+        minVersion: "TLSv1.2",
+      },
+    },
+  }
 );
 
+// ✅ Export the Worker
 module.exports = fileWorker;
