@@ -5,14 +5,21 @@ const fs = require("fs");
 const readline = require("readline");
 const os = require("os");
 
-const connection = new Redis({
-  host: process.env.Redis_Host_Cloud,
-  port: process.env.Redis_Port_Cloud,
-  password: process.env.REDIS_PASSWORD,
+// const connection = new Redis({
+//   host: process.env.Redis_Host_Cloud,
+//   port: process.env.Redis_Port_Cloud,
+//   password: process.env.REDIS_PASSWORD,
+//   maxRetriesPerRequest: null,
+//   tls: {
+//     minVersion: "TLSv1.2", // ✅ Force correct TLS version
+//     rejectUnauthorized: false, // ✅ Ignore certificate issues
+//   },
+// });
+
+const connection = new Redis(process.env.Redis_Url_Cloud, {
   maxRetriesPerRequest: null,
   tls: {
-    minVersion: "TLSv1.2", // ✅ Force correct TLS version
-    rejectUnauthorized: false, // ✅ Ignore certificate issues
+    rejectUnauthorized: false,
   },
 });
 
