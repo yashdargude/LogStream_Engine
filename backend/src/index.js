@@ -3,7 +3,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const http = require("http"); // Import the http module
+const http = require("http");
 const { Server } = require("socket.io");
 const fileQueue = require("./queues/fileQueue");
 const fileWorker = require("./workers/fileWorker");
@@ -17,7 +17,7 @@ const port = process.env.PORT || 3001;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your frontend URL
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -31,6 +31,14 @@ app.use(express.json());
 app.use(cors());
 
 const upload = multer({ dest: "uploads/" });
+
+app.get("/api", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Backend API is up and running 🚀🔥",
+    timestamp: new Date().toISOString(),
+  });
+});
 
 app.post("/api/upload-logs", upload.array("logfiles", 10), async (req, res) => {
   const files = req.files;
@@ -112,6 +120,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+server.listen(process.env.PORT, "0.0.0.0", () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });

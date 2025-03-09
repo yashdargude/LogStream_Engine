@@ -2,8 +2,9 @@ const { Queue } = require("bullmq");
 const Redis = require("ioredis");
 
 const connection = new Redis({
-  host: process.env.Redis_Host,
-  port: process.env.Redis_Port,
+  host: process.env.Redis_Host_Cloud,
+  port: process.env.Redis_Port_Cloud,
+  password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null,
 });
 
