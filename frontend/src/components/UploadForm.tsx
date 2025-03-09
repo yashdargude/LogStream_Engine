@@ -34,7 +34,7 @@ export default function UploadForm() {
 
   useEffect(() => {
     // ✅ Correctly Initialize The Socket
-    const socket: Socket = io("http://localhost:3001");
+    const socket: Socket = io("https://logstream-engine.onrender.com");
 
     // ✅ Listen For Queue Status Update
     socket.on("queue-status", (status: QueueStatus) => {
