@@ -5,38 +5,6 @@ const fs = require("fs");
 const readline = require("readline");
 const os = require("os");
 
-// ✅ Create Redis Client Using Native Redis (NO ioredis)
-// const client = redis.createClient({
-//   socket: {
-//     host: process.env.Redis_Host_Cloud,
-//     port: process.env.Redis_Port_Cloud,
-//     tls: {
-//       rejectUnauthorized: false, // ✅ Ignore self-signed certificates
-//       minVersion: "TLSv1.2", // ✅ Force correct TLS version
-//     },
-//   },
-//   password: process.env.REDIS_PASSWORD,
-// });
-
-// // ✅ Handle Redis Connection
-// client.on("connect", () => {
-//   console.log("✅ Connected to Redis Cloud Successfully 🚀 in fileworkker");
-// });
-
-// client.on("error", (err) => {
-//   console.error("❌ Redis Client Error:", err);
-// });
-
-// // ✅ Connect Redis Client
-// client
-//   .connect()
-//   .then(() => {
-//     console.log("✅ Redis Client Fully Connected. in fileworker");
-//   })
-//   .catch((err) => {
-//     console.error("❌ Redis Client Connection Failed:", err);
-//   });
-
 // ✅ Create Redis Connection Using ioredis (NOT native Redis)
 const connection = new Redis({
   host: process.env.Redis_Host_Cloud,
