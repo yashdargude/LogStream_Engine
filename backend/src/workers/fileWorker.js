@@ -10,7 +10,9 @@ const connection = new Redis({
   port: process.env.Redis_Port_Cloud,
   password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null,
-  tls: {},
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
 const supabase = createClient(
