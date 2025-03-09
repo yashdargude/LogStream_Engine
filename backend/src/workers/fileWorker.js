@@ -6,8 +6,9 @@ const readline = require("readline");
 const os = require("os");
 
 const connection = new Redis({
-  host: process.env.Redis_Host,
-  port: process.env.Redis_Port,
+  host: process.env.Redis_Host_Cloud,
+  port: process.env.Redis_Port_Cloud,
+  password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null,
 });
 
