@@ -11,7 +11,8 @@ const connection = new Redis({
   password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null,
   tls: {
-    rejectUnauthorized: false,
+    minVersion: "TLSv1.2", // ✅ Force correct TLS version
+    rejectUnauthorized: false, // ✅ Ignore certificate issues
   },
 });
 

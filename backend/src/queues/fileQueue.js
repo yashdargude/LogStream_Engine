@@ -6,7 +6,10 @@ const connection = new Redis({
   port: process.env.Redis_Port_Cloud,
   password: process.env.REDIS_PASSWORD,
   maxRetriesPerRequest: null,
-  tls: { rejectUnauthorized: false },
+  tls: {
+    minVersion: "TLSv1.2", // ✅ Force correct TLS version
+    rejectUnauthorized: false, // ✅ Ignore certificate issues
+  },
 });
 
 const fileQueue = new Queue("log-processing-queue", {
