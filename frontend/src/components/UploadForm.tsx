@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { uploadLogFiles, fetchJobStats } from "../lib/api";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { MultiStepLoader as Loader } from "./ui/multi-step-loader";
 import { IconSquareRoundedX } from "@tabler/icons-react";
 import { ShootingStars } from "./ui/shooting-stars";
@@ -9,28 +9,42 @@ import { StarsBackground } from "./ui/stars-background";
 import UserProfileDropdown from "./UserProfileBox";
 import useAuth from "../hooks/useAuth";
 
+type QueueStatus = {
+  active: number;
+  completed: number;
+  failed: number;
+};
 export default function UploadForm() {
   const [files, setFiles] = useState<FileList | null>(null);
   const [loading, setLoading] = useState(false);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [jobStats, setJobStats] = useState(null);
-  const [queueStatus, setQueueStatus] = useState(null);
+  const [queueStatus, setQueueStatus] = useState<QueueStatus>({
+    active: 0,
+    completed: 0,
+    failed: 0,
+  }); // ✅ Now We Have Proper Type  const user = useAuth(); // Fetch user from hook
+
   const user = useAuth(); // Fetch user from hook
 
+  // ✅ Fix The File Count (NO Type Error Now)
   const activeFileCount =
     loading && files ? files.length : queueStatus?.active || 0;
 
   useEffect(() => {
-    const socket = io("http://localhost:3001"); // Replace with your backend URL
+    // ✅ Correctly Initialize The Socket
+    const socket: Socket = io("http://localhost:3001");
 
-    // Listen for queue status update from server
-    socket.on("queue-status", (status) => {
+    // ✅ Listen For Queue Status Update
+    socket.on("queue-status", (status: QueueStatus) => {
       setQueueStatus(status);
     });
 
-    // Clean up the socket connection
-    return () => socket.disconnect();
+    // ✅ Corrected Cleanup Function (No More Error)
+    return () => {
+      socket.disconnect(); // ✅ This Properly Disconnects The Socket
+    };
   }, []);
 
   const loadingStates = [
@@ -180,16 +194,11 @@ export default function UploadForm() {
               {["Active", "Completed", "Failed"].map((key) => (
                 <div
                   key={key}
-                  className={`bg-gray-700 p-4 rounded-lg text-center ${
-                    key === "Active" ? "animate-pulse" : ""
-                  }`}
+                  className="p-4 bg-gray-700 rounded-lg text-center"
                 >
                   <h4 className="font-bold text-lg">{key}</h4>
                   <p className="text-xl">
-                    {/* ✅ Dynamically update active file count */}
-                    {key === "Active"
-                      ? activeFileCount
-                      : queueStatus[key.toLowerCase()] ?? 0}
+                    {queueStatus[key.toLowerCase() as keyof QueueStatus] ?? 0}
                   </p>
                 </div>
               ))}

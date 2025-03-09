@@ -12,7 +12,7 @@ export default function LoginForm() {
   const [error, setError] = useState("");
   const user = useAuth();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -25,7 +25,7 @@ export default function LoginForm() {
     }
   };
 
-  const handleOAuthLogin = async (provider) => {
+  const handleOAuthLogin = async (provider: "google" | "github") => {
     const { error } = await supabase.auth.signInWithOAuth({ provider });
     if (error) {
       setError(error.message);

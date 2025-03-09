@@ -14,7 +14,23 @@ const grid = [
 const size = 20;
 const gap = 10;
 
-const Square = ({ active, setActive, colIndex, rowIndex, x, y }) => {
+interface SquareProps {
+  active: { row: number; col: number };
+  setActive: (active: { row: number; col: number }) => void;
+  colIndex: number;
+  rowIndex: number;
+  x: any;
+  y: any;
+}
+
+const Square: React.FC<SquareProps> = ({
+  active,
+  setActive,
+  colIndex,
+  rowIndex,
+  x,
+  y,
+}) => {
   const isDragging = colIndex === active.col && rowIndex === active.row;
   const d = distance(
     { x: active.col, y: active.row },
@@ -39,8 +55,8 @@ const Square = ({ active, setActive, colIndex, rowIndex, x, y }) => {
       dragElastic={0.5}
       onDragStart={() => setActive({ row: rowIndex, col: colIndex })}
       onDragEnd={() => {
-        dx.set(0);
-        dy.set(0);
+        dx.set("0");
+        dy.set("0");
       }}
       className="absolute rounded-full"
       style={{

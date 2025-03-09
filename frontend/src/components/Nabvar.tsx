@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import Link from "next/link";
-
+import useAuth from "@/hooks/useAuth";
+import { User } from "@supabase/supabase-js"; // ✅ Added This Line 💯🔥
 export default function Navbar() {
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const getSession = async () => {
       const {

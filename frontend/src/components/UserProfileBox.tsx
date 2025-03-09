@@ -11,8 +11,15 @@ import { motion } from "framer-motion";
 import { supabase } from "../lib/supabaseClient";
 
 import { useRouter } from "next/navigation";
+import { User } from "@supabase/supabase-js";
 
-export default function UserProfileDropdown({ user }) {
+interface UserProfileDropdownProps {
+  user: User | null;
+}
+
+export default function UserProfileDropdown({
+  user,
+}: UserProfileDropdownProps) {
   const router = useRouter();
 
   const handleLogout = async () => {

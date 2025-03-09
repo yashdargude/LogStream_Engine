@@ -14,20 +14,29 @@ const tailwindColors = {
 
 // Function to set CSS variables for colors
 function addVariablesForColors() {
-  const flattenColors = (colors: any, prefix = ""): any => {
-    return Object.entries(colors).reduce((acc, [key, val]) => {
-      if (typeof val === "string") {
-        acc[`--${prefix}${key}`] = val;
-      } else {
-        Object.assign(acc, flattenColors(val, `${prefix}${key}-`));
-      }
-      return acc;
-    }, {});
+  const flattenColors = (
+    colors: Record<string, any>,
+    prefix = ""
+  ): Record<string, string> => {
+    return Object.entries(colors).reduce<Record<string, string>>(
+      (acc, [key, val]) => {
+        if (typeof val === "string") {
+          // ✅ Now TypeScript understands the key
+          acc[`--${prefix}${key}`] = val;
+        } else {
+          // ✅ Recursively flatten the object
+          Object.assign(acc, flattenColors(val, `${prefix}${key}-`));
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
   };
 
+  // ✅ Flatten colors and set them as CSS variables
   const allColors = flattenColors(tailwindColors);
   Object.entries(allColors).forEach(([key, value]) => {
-    document.documentElement.style.setProperty(key, value as string);
+    document.documentElement.style.setProperty(key, value);
   });
 }
 

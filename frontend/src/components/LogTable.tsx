@@ -1,9 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchStats } from "@/utils/api";
+import { fetchStats } from "../lib/api";
+
+type Log = {
+  job_id: string;
+  errors: number;
+  warnings: number;
+  infos: number;
+  ips: string[]; // ✅ This is correct now
+};
 
 export default function LogTable() {
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState<Log[]>([]); // ✅ Fixed the Type Here
 
   useEffect(() => {
     async function loadStats() {
@@ -29,7 +37,7 @@ export default function LogTable() {
             <tr key={log.job_id} className="border-t">
               <td className="p-2">{log.job_id}</td>
               <td className="p-2">{log.errors}</td>
-              <td className="p-2">{log.ip_addresses}</td>
+              <td className="p-2">{log.ips}</td>
             </tr>
           ))}
         </tbody>
