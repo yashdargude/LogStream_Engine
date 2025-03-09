@@ -40,6 +40,14 @@ app.get("/api", (req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Backend API is up and running 🚀🔥",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.post("/api/upload-logs", upload.array("logfiles", 10), async (req, res) => {
   const files = req.files;
   if (!files || files.length === 0) {
