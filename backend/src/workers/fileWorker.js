@@ -1,41 +1,61 @@
 const { Worker } = require("bullmq");
-const redis = require("redis");
+const Redis = require("ioredis");
 const { createClient } = require("@supabase/supabase-js");
 const fs = require("fs");
 const readline = require("readline");
 const os = require("os");
 
 // ✅ Create Redis Client Using Native Redis (NO ioredis)
-const client = redis.createClient({
-  socket: {
-    host: process.env.Redis_Host_Cloud,
-    port: process.env.Redis_Port_Cloud,
-    tls: {
-      rejectUnauthorized: false, // ✅ Ignore self-signed certificates
-      minVersion: "TLSv1.2", // ✅ Force correct TLS version
-    },
-  },
+// const client = redis.createClient({
+//   socket: {
+//     host: process.env.Redis_Host_Cloud,
+//     port: process.env.Redis_Port_Cloud,
+//     tls: {
+//       rejectUnauthorized: false, // ✅ Ignore self-signed certificates
+//       minVersion: "TLSv1.2", // ✅ Force correct TLS version
+//     },
+//   },
+//   password: process.env.REDIS_PASSWORD,
+// });
+
+// // ✅ Handle Redis Connection
+// client.on("connect", () => {
+//   console.log("✅ Connected to Redis Cloud Successfully 🚀 in fileworkker");
+// });
+
+// client.on("error", (err) => {
+//   console.error("❌ Redis Client Error:", err);
+// });
+
+// // ✅ Connect Redis Client
+// client
+//   .connect()
+//   .then(() => {
+//     console.log("✅ Redis Client Fully Connected. in fileworker");
+//   })
+//   .catch((err) => {
+//     console.error("❌ Redis Client Connection Failed:", err);
+//   });
+
+// ✅ Create Redis Connection Using ioredis (NOT native Redis)
+const connection = new Redis({
+  host: process.env.Redis_Host_Cloud,
+  port: process.env.Redis_Port_Cloud,
   password: process.env.REDIS_PASSWORD,
+  // tls: {
+  //   rejectUnauthorized: true,
+  //   minVersion: "TLSv1.3",
+  // },
+  maxRetriesPerRequest: null,
 });
 
-// ✅ Handle Redis Connection
-client.on("connect", () => {
-  console.log("✅ Connected to Redis Cloud Successfully 🚀");
-});
-
-client.on("error", (err) => {
+connection.on("error", (err) => {
   console.error("❌ Redis Client Error:", err);
 });
 
-// ✅ Connect Redis Client
-client
-  .connect()
-  .then(() => {
-    console.log("✅ Redis Client Fully Connected.");
-  })
-  .catch((err) => {
-    console.error("❌ Redis Client Connection Failed:", err);
-  });
+connection.on("connect", () => {
+  console.log("✅ Connected to Redis Cloud Successfully 🚀 in fileworkker");
+});
 
 // ✅ Initialize Supabase
 const supabase = createClient(
@@ -118,15 +138,7 @@ const fileWorker = new Worker(
     }
   },
   {
-    connection: {
-      host: process.env.Redis_Host_Cloud,
-      port: process.env.Redis_Port_Cloud,
-      password: process.env.REDIS_PASSWORD,
-      tls: {
-        rejectUnauthorized: false,
-        minVersion: "TLSv1.2",
-      },
-    },
+    connection,
   }
 );
 

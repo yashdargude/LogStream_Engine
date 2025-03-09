@@ -1,39 +1,60 @@
 const { Queue } = require("bullmq");
-const redis = require("redis");
+const Redis = require("ioredis");
 
 // ✅ Create Redis Client Using Native Redis
-const client = redis.createClient({
-  socket: {
-    host: process.env.Redis_Host_Cloud,
-    port: process.env.Redis_Port_Cloud,
-    tls: {
-      rejectUnauthorized: false, // ✅ Ignore self-signed certificates
-      minVersion: "TLSv1.2", // ✅ Force correct TLS version
-    },
-  },
+// const client = redis.createClient({
+//   socket: {
+//     host: process.env.Redis_Host_Cloud,
+//     port: process.env.Redis_Port_Cloud,
+//     tls: {
+//       rejectUnauthorized: false, // ✅ Ignore self-signed certificates
+//       minVersion: "TLSv1.2", // ✅ Force correct TLS version
+//     },
+//   },
+//   password: process.env.REDIS_PASSWORD,
+// });
+
+// // ✅ Connect Redis Client
+// client.on("connect", () => {
+//   console.log("✅ Connected to Redis Cloud Successfully in filequeue");
+// });
+
+// client.on("error", (err) => {
+//   console.error("❌ Redis Client Error", err);
+// });
+
+// // ✅ Connect Redis Client
+// client
+//   .connect()
+//   .then(() => {
+//     console.log("✅ Redis Client Fully Connected in filequeue.");
+//   })
+//   .catch((err) => {
+//     console.error("❌ Redis Client Connection Failed:", err);
+//   });
+
+const connection = new Redis({
+  host: process.env.Redis_Host_Cloud,
+  port: process.env.Redis_Port_Cloud,
   password: process.env.REDIS_PASSWORD,
+  // tls: {
+  //   rejectUnauthorized: true,
+  //   minVersion: "TLSv1.3",
+  // },
+  maxRetriesPerRequest: null,
 });
 
-// ✅ Connect Redis Client
-client.on("connect", () => {
-  console.log("✅ Connected to Redis Cloud Successfully");
+connection.on("error", (err) => {
+  console.error("❌ Redis Client Error:", err);
 });
 
-client.on("error", (err) => {
-  console.error("❌ Redis Client Error", err);
+connection.on("connect", () => {
+  console.log("✅ Connected to Redis Cloud Successfully 🚀 in fileworkker");
 });
 
 // ✅ BullMQ Queue Using Redis Client
 const fileQueue = new Queue("log-processing-queue", {
-  connection: {
-    host: process.env.Redis_Host_Cloud,
-    port: process.env.Redis_Port_Cloud,
-    password: process.env.REDIS_PASSWORD,
-    tls: {
-      rejectUnauthorized: false,
-      minVersion: "TLSv1.2",
-    },
-  },
+  connection,
   defaultJobOptions: {
     attempts: 3, // ✅ Maximum retry attempts
     backoff: {
