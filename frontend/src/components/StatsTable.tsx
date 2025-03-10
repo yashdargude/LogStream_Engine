@@ -162,14 +162,28 @@ export default function StatsTable() {
       <div className="overflow-x-auto m-4 rounded-xl">
         <Table className="w-full border border-gray-200">
           <TableHeader>
-            <TableRow className="bg-gray-800 text-gray-100 font-bold text-center">
-              <TableHead className="text-center">Job ID</TableHead>
-              <TableHead className="text-center">Date Created</TableHead>
-              <TableHead className="text-center">Errors</TableHead>
-              <TableHead className="text-center">Warnings</TableHead>
-              <TableHead className="text-center">Infos</TableHead>
-              <TableHead className="text-center">IP Addresses</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
+            <TableRow className="bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold text-center border-b border-gray-700">
+              <TableHead className="text-center uppercase tracking-wide text-gray-300 px-4 py-3">
+                Job ID
+              </TableHead>
+              <TableHead className="text-center uppercase tracking-wide text-gray-300 px-4 py-3">
+                Date Created
+              </TableHead>
+              <TableHead className="text-center uppercase tracking-wide text-red-400 px-4 py-3">
+                Errors
+              </TableHead>
+              <TableHead className="text-center uppercase tracking-wide text-yellow-400 px-4 py-3">
+                Warnings
+              </TableHead>
+              <TableHead className="text-center uppercase tracking-wide text-blue-400 px-4 py-3">
+                Infos
+              </TableHead>
+              <TableHead className="text-center font-bold italic  tracking-wide  text-gray-100 px-4 py-3">
+                ip address
+              </TableHead>
+              <TableHead className="text-center uppercase tracking-wide text-purple-100 px-4 py-3">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
