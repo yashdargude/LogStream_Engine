@@ -81,13 +81,19 @@ export default function StatsTable() {
 
   const sortTable = (key: keyof LogStat, direction: "asc" | "desc") => {
     setSortConfig({ key, direction });
-    setStats((prevStats) =>
-      [...prevStats].sort((a, b) => {
-        if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-        if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+
+    setStats((prevStats) => {
+      return [...prevStats].slice().sort((a, b) => {
+        const valA =
+          typeof a[key] === "number" ? (a[key] as number) : String(a[key]);
+        const valB =
+          typeof b[key] === "number" ? (b[key] as number) : String(b[key]);
+
+        if (valA < valB) return direction === "asc" ? -1 : 1;
+        if (valA > valB) return direction === "asc" ? 1 : -1;
         return 0;
-      })
-    );
+      });
+    });
   };
 
   return (
@@ -159,7 +165,7 @@ export default function StatsTable() {
           </span>
         </button>
       </div>
-      <div className="overflow-x-auto m-4 rounded-xl">
+      <div className="overflow-x-auto m-10 rounded-xl">
         <Table className="w-full border border-gray-200">
           <TableHeader>
             <TableRow className="bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold text-center border-b border-gray-700">
