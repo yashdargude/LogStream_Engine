@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Navbar from "../components/ui/navbar-menu";
 import BackgroundDots from "../components/ui/BackgroundDots";
-
+import React from "react";
 import useAuth from "../hooks/useAuth";
 import { motion } from "framer-motion";
 import { BackgroundBeamsWithCollision } from "../components/ui/background-beams-with-collision";
@@ -22,14 +22,14 @@ export default function Hero() {
   return (
     <>
       {/* Sticky Logo */}
-      <div className="fixed top-4 left-4 z-50">
+      <div className="absolute top-4 left-4 z-50">
         <img
           src="https://cybersapient.io/wp-content/uploads/2023/02/cybersapient_light.png"
           alt="Cybersapient Logo"
           className="h-12 md:h-16" // Adjust size as needed
         />
       </div>
-      <div className="fixed top-4 right-4 z-50">
+      <div className="absolute top-4 right-4 z-50">
         <UserProfileDropdown user={user} />
       </div>
 
