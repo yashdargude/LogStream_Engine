@@ -8,29 +8,22 @@ import {
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-[#121212] text-white py-12">
-      <div className="container mx-auto px-4">
+    <div className="bg-[#121212] text-white py-12 px-4">
+      <div className="container mx-auto">
         {/* Logo and Slogan Section */}
-        <div className="flex flex-wrap justify-between items-center">
-          <div className="w-full md:w-1/2 mb-6 md:mb-0">
-            <a href="https://cybersapient.io">
-              <img
-                src="https://cybersapient.io/wp-content/uploads/2023/02/logo-cybersapient.png"
-                alt="footer logo"
-                className="h-12"
-              />
-            </a>
-          </div>
-
-          <div className="w-full md:w-1/2 text-right">
-            <h3 className="text-xl font-light">
-              Phenomenal Success. Delivered.
-            </h3>
-          </div>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <a href="https://cybersapient.io">
+            <img
+              src="https://cybersapient.io/wp-content/uploads/2023/02/logo-cybersapient.png"
+              alt="footer logo"
+              className="h-12 mx-auto md:mx-0"
+            />
+          </a>
+          <h3 className="text-xl font-light">Phenomenal Success. Delivered.</h3>
         </div>
 
         {/* Navigation Links */}
-        <div className="flex justify-center space-x-6 mt-10">
+        <div className="flex flex-wrap justify-center md:justify-center gap-4 mt-8 text-sm">
           {[
             { name: "Home", link: "https://cybersapient.io/" },
             { name: "About Us", link: "https://cybersapient.io/about-us/" },
@@ -50,7 +43,7 @@ const Footer: React.FC = () => {
             <a
               key={item.name}
               href={item.link}
-              className="text-light text-sm hover:underline"
+              className="hover:underline text-gray-300"
             >
               {item.name}
             </a>
@@ -58,13 +51,13 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Contact Info Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-4 mt-12 text-center md:text-left">
           <div>
             <h6 className="text-sm text-gray-400 mb-2">LOCATIONS</h6>
             <h4 className="text-lg">Bangalore, Kochi, Dubai, KSA</h4>
           </div>
           <div>
-            <h6 className="text-sm text-gray-400  mb-2">ENQUIRIES</h6>
+            <h6 className="text-sm text-gray-400 mb-2">ENQUIRIES</h6>
             <a
               href="mailto:hello@cybersapient.io"
               className="text-lg hover:underline"
@@ -73,8 +66,8 @@ const Footer: React.FC = () => {
             </a>
           </div>
           <div>
-            <h6 className="text-sm  text-gray-400 mb-2">FOLLOW</h6>
-            <div className="flex space-x-4">
+            <h6 className="text-sm text-gray-400 mb-2">FOLLOW</h6>
+            <div className="flex justify-center md:justify-start space-x-4">
               <a
                 href="https://www.facebook.com/cybersapient.io"
                 target="_blank"
@@ -108,7 +101,7 @@ const Footer: React.FC = () => {
             <a
               href="https://dcod.co/"
               target="_blank"
-              className="text-light hover:underline ml-1"
+              className="hover:underline ml-1"
             >
               DCOD
             </a>

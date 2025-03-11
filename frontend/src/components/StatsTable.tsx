@@ -127,45 +127,45 @@ export default function StatsTable() {
         <UserProfileDropdown user={user} />
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-3 justify-start ml-4">
+      <div className="mb-4 flex flex-wrap gap-3 justify-center sm:justify-center md:justify-start ml-10">
         <button
           onClick={() => sortTable("job_id", "asc")}
-          className="relative inline-flex h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          className="relative inline-flex h-10 sm:h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
         >
           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-            Sort by Job ID
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-4 sm:px-3 py-2 sm:py-1 text-sm font-medium text-white backdrop-blur-3xl">
+            Sort by Job ID ↑
           </span>
         </button>
         <button
           onClick={() => sortTable("job_id", "desc")}
-          className="relative inline-flex h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          className="relative inline-flex h-10 sm:h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
         >
           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-            Sort by Job ID
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-4 sm:px-3 py-2 sm:py-1 text-sm font-medium text-white backdrop-blur-3xl">
+            Sort by Job ID ↓
           </span>
         </button>
         <button
           onClick={() => sortTable("created_at", "asc")}
-          className="relative inline-flex h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          className="relative inline-flex h-10 sm:h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
         >
           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-4 sm:px-3 py-2 sm:py-1 text-sm font-medium text-white backdrop-blur-3xl">
             Sort by Date ↑
           </span>
         </button>
         <button
-          onClick={() => sortTable("job_id", "desc")}
-          className="relative inline-flex h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          onClick={() => sortTable("created_at", "desc")}
+          className="relative inline-flex h-10 sm:h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
         >
           <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-4 sm:px-3 py-2 sm:py-1 text-sm font-medium text-white backdrop-blur-3xl">
             Sort by Date ↓
           </span>
         </button>
       </div>
-      <div className="overflow-x-auto m-10 rounded-xl">
+      <div className="overflow-x-auto m-4 sm:m-6 md:m-10 rounded-xl">
         <Table className="w-full border border-gray-200">
           <TableHeader>
             <TableRow className="bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold text-center border-b border-gray-700">
@@ -258,7 +258,8 @@ export default function StatsTable() {
                             </p>
                           </div>
 
-                          <div className="grid grid-cols-3 gap-4">
+                          {/* Stats Section */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div className="p-4 bg-red-700/40 rounded-lg text-center">
                               <p className="text-lg font-semibold text-red-300">
                                 {jobStats.errors}
@@ -284,7 +285,9 @@ export default function StatsTable() {
                               <strong className="text-gray-100">
                                 IP Addresses:
                               </strong>{" "}
-                              {jobStats.ips.join(", ")}
+                              <span className="break-words">
+                                {jobStats.ips.join(", ")}
+                              </span>
                             </p>
                           </div>
                         </div>
